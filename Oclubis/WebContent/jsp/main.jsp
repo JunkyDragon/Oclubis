@@ -15,6 +15,10 @@
 </head>
 <body>
 	<a href="${ contextPath }/jsp/write.jsp">글쓰기</a>
+	<form action="${ contextPath }/club.do" method="post">
+		<button name="club" value="${ sessionScope.user.club }">동방으로</button>
+	</form>
+	<a href="${ contextPath }/jsp/searchclub.jsp">동아리검색</a>
 	<form class="" action="search.do" method="post">
 		<select name="condition">
 			<option value="theme">제목</option>
@@ -43,8 +47,16 @@
 			날짜 : ${ item.date } <br>
 			카테고리 : ${ item.category } <br>
 			내용 : ${ item.content } <br>
+			<form action="comment.do" method="post">
+					<button name="number" value="${ item.number }">댓글 보기</button>
+				</form>
 			<c:if test="${ sessionScope.user.name eq item.writer }">
-				<button></button>
+				<form action="update.do" method="post">
+					<button name="number" value="${ item.number }">수정</button>
+				</form>
+				<form action="delete.do" method="post">
+					<button name="number" value="${ item.number }">삭제</button>
+				</form>
 			</c:if>
 			<hr>
 		</c:forEach>

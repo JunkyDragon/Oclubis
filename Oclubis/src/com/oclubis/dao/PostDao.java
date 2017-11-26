@@ -132,4 +132,61 @@ public class PostDao {
 		}
 	}
 
+	public List<PostVO> searchPost(String condition, String search) throws Exception {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		if (condition.equals("theme")) {
+			sql = "SELECT * FROM POST WHERE THEME LIKE ?";
+		} else {
+			sql = "SELECT * FROM POST WHERE WRITER LIKE ?";
+		}
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, search);
+			rs = pstmt.executeQuery();
+			List<PostVO> list = new ArrayList<>();
+			PostVO pv = null;
+			while (rs.next()) {
+				pv = new PostVO();
+				pv.setNumber(rs.getInt(1));
+				pv.setTheme(rs.getString(2));
+				pv.setContent(rs.getString(3));
+				pv.setWriter(rs.getString(4));
+				pv.setDate(rs.getString(5));
+				pv.setCategory(rs.getInt(6));
+				list.add(pv);
+			}
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("글 조회시 오류가 발생했습니다.");
+		} finally {
+			if (rs != null) {
+				rs.close();
+			}
+			if (pstmt != null) {
+				pstmt.close();
+			}
+		}
+	}
+
+	public void deletePost(int number) throws Exception {
+		PreparedStatement pstmt = null;
+		String sql = "DELETE FROM POST WHERE NUMBER=?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, number);
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("사용자 등록 시에 오류가 발생하였습니다");
+		} finally {
+			if (pstmt != null) {
+				pstmt.close();
+			}
+		}
+	}
+
 }

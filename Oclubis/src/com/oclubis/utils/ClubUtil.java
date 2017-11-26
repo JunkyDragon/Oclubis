@@ -2,14 +2,15 @@ package com.oclubis.utils;
 
 import java.util.List;
 
-import com.oclubis.service.CommonService;
+import com.oclubis.service.ClubService;
+import com.oclubis.vo.ClubVO;
 
 public class ClubUtil {
-	public List<String> getClub() throws Exception {
+	public List<ClubVO> getClub() throws Exception {
 		
-		CommonService service = new CommonService();
+		ClubService service = new ClubService();
 		
-		List<String> list = service.getClubList();
+		List<ClubVO> list = service.getClubList();
 		
 		return list;
 	}

@@ -8,10 +8,12 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.oclubis.service.ClubService;
 import com.oclubis.service.PostService;
+import com.oclubis.vo.ClubVO;
 import com.oclubis.vo.PostVO;
 
-public class SearchAction implements IAction {
+public class SearchclubAction implements IAction {
 
 	@Override
 	public void excute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -20,12 +22,12 @@ public class SearchAction implements IAction {
 			request.setCharacterEncoding("utf-8");
 			String condition = request.getParameter("condition");
 			String search = request.getParameter("search");
-			PostService service = new PostService();
-			List<PostVO> list = new ArrayList<>();
-			list = service.searchPost(condition, search);
+			ClubService service = new ClubService();
+			List<ClubVO> list = new ArrayList<>();
+			list = service.searchClub(condition, search);
 			Collections.reverse(list);
 			request.setAttribute("list", list);
-			RequestDispatcher rd = request.getRequestDispatcher("jsp/main.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("jsp/searchclub.jsp");
 			rd.forward(request, response);
 
 		} catch (Exception e) {

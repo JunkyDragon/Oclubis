@@ -1,6 +1,7 @@
 package com.oclubis.service;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 import com.oclubis.dao.PostDao;
@@ -52,6 +53,40 @@ public class PostService extends AbstractService {
 			List<PostVO> list = dao.getPostListByCategory(category);
 			
 			return list;
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+
+	public List<PostVO> searchPost(String condition, String search) throws Exception{
+		Connection conn = null;
+		try {
+			conn = getConnection();
+			
+			PostDao dao = new PostDao(conn);
+			StringBuilder sb = new StringBuilder();
+			sb.append("%").append(search).append("%");
+			System.out.println(sb.toString());
+			List<PostVO> list = dao.searchPost(condition, sb.toString());
+			
+			return list;
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+
+	public void deletePost(int number) throws Exception {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn = getConnection();
+			
+			PostDao dao = new PostDao(conn);
+			dao.deletePost(number);
 		} finally {
 			if (conn != null) {
 				conn.close();

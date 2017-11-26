@@ -1,40 +1,39 @@
 package com.oclubis.action;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.oclubis.service.PostService;
 import com.oclubis.vo.PostVO;
+import com.oclubis.vo.UserVO;
 
-public class SearchAction implements IAction {
-
+public class DeleteAction implements IAction {
 	@Override
 	public void excute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		try {
 			response.setContentType("text/html;charset=utf-8");
 			request.setCharacterEncoding("utf-8");
-			String condition = request.getParameter("condition");
-			String search = request.getParameter("search");
+			int number = Integer.parseInt(request.getParameter("number"));
 			PostService service = new PostService();
-			List<PostVO> list = new ArrayList<>();
-			list = service.searchPost(condition, search);
-			Collections.reverse(list);
-			request.setAttribute("list", list);
-			RequestDispatcher rd = request.getRequestDispatcher("jsp/main.jsp");
+			service.deletePost(number);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("main.do");
 			rd.forward(request, response);
 
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			request.setAttribute("error", e.getMessage());
-			RequestDispatcher rd = request.getRequestDispatcher("jsp/error.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("jsp/write.jsp");
 			rd.forward(request, response);
 		}
 	}
-
+	
 }

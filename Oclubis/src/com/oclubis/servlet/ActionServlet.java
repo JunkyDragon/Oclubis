@@ -35,6 +35,12 @@ public class ActionServlet extends HttpServlet {
 		actions.put("write", new WriteAction());
 		actions.put("category", new CategoryAction());
 		actions.put("search", new SearchAction());
+		actions.put("delete", new DeleteAction());
+		actions.put("update", new UpdateAction());
+		actions.put("searchclub", new SearchclubAction());
+		actions.put("club", new ClubAction());
+		actions.put("like", new LikeAction());
+		actions.put("comment", new CommentAction());
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

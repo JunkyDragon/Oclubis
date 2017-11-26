@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.List" %>
 <%@ page import="com.oclubis.utils.*" %>
+<%@ page import="com.oclubis.vo.ClubVO" %>
 <c:set var="contextPath" value="${ pageContext.request.contextPath }"/>
 
 <!DOCTYPE html>
@@ -23,7 +24,7 @@
 
 		<%
 			ClubUtil club = new ClubUtil();
-			List<String> list = club.getClub();
+			List<ClubVO> list = club.getClub();
 			request.setAttribute("list", list);
 		%>
 		<form id="signupForm" class="form-signin" action="${contextPath}/signup.do" method="post">
@@ -42,7 +43,7 @@
 					<select name="club" required="required" class="form-control" style="height: 47px">
 						<option selected="selected" disabled="disabled">Club</option>
 						<c:forEach items="${ list }" var="clubs">
-							<option value="${ clubs }">${ clubs }</option>
+							<option value="${ clubs.name }">${ clubs.name }</option>
 						</c:forEach>
 					</select>
 				</div>
