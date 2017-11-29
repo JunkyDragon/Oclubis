@@ -23,8 +23,15 @@ public class SigninAction implements IAction{
 			UserVO result = service.signin(user);
 			request.setAttribute("user", result);
 			request.getSession().setAttribute("user", result);
-			RequestDispatcher rd = request.getRequestDispatcher("main.do");
-			rd.forward(request, response);
+			RequestDispatcher rd = null;
+			if (result.getPermission() == 3) {
+//				rd = request.getRequestDispatcher("jsp/admin.jsp");
+				response.sendRedirect("jsp/admin.jsp");
+			} else {
+//				rd = request.getRequestDispatcher("main.do");
+				response.sendRedirect("main.do");
+			}
+//			rd.forward(request, response);
 		} catch (Exception e) {
 			// TODO: handle exception
 			request.setAttribute("error", e.getMessage());

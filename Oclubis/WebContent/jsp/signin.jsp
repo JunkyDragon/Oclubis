@@ -37,7 +37,10 @@
             <c:if test="${ error != null }">
               <script>
                 <%-- 로그인이 실패한 경우 처리 추가 --%>
-                var myModal = $('#myModal'); myModal.find('.modal-title').text('Login Error'); myModal.find('.modal-body').text("${ error }"); myModal.modal();
+                var myModal = $('#myModal'); 
+                myModal.find('.modal-title').text('Login Error'); 
+                myModal.find('.modal-body').text("${ error }"); 
+                myModal.modal();
               </script>
             </c:if>
           </body>

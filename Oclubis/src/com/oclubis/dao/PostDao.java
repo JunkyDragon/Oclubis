@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.crypto.spec.PSource;
 
@@ -182,6 +184,79 @@ public class PostDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception("사용자 등록 시에 오류가 발생하였습니다");
+		} finally {
+			if (pstmt != null) {
+				pstmt.close();
+			}
+		}
+	}
+	public void addLike(int number, String writer) throws Exception {
+		PreparedStatement pstmt = null;
+		
+		String sql = "INSERT INTO POSTLIKE VALUES(?, ?)";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, number);
+			pstmt.setString(2, writer);
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("좋아요 시에 오류가 발생하였습니다");
+		} finally {
+			if (pstmt != null) {
+				pstmt.close();
+			}
+		}
+	}
+	public Map<Integer, List<String>> getLikeList() throws Exception {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM POSTLIKE";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			int check = 0;
+			Map<Integer, List<String>> map = new HashMap<>();
+			List<String> list = null;
+			while (rs.next()) {
+				if (rs.getInt(1) > check) {	
+					map.put(check, list);
+					list = new ArrayList<>();
+					check = rs.getInt(1);
+					System.out.println(map);
+				}
+				if (rs.getInt(1) == check) {
+					list.add(rs.getString(2));
+				}
+			}
+			map.put(check, list);
+			System.out.println(map);
+			return map;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("사용자 등록 시에 오류가 발생하였습니다");
+		} finally {
+			if (pstmt != null) {
+				pstmt.close();
+			}
+		}
+	}
+
+	public void deleteLike(int num, String name) throws Exception {
+		// TODO Auto-generated method stub
+PreparedStatement pstmt = null;
+		
+		String sql = "DELETE FROM POSTLIKE WHERE LIKERNAME=? AND POSTNUMBER=?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setInt(2, num);
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("좋아요 시에 오류가 발생하였습니다");
 		} finally {
 			if (pstmt != null) {
 				pstmt.close();

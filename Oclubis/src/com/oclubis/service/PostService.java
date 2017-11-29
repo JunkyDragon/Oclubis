@@ -3,20 +3,21 @@ package com.oclubis.service;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import com.oclubis.dao.PostDao;
 import com.oclubis.vo.PostVO;
 
 public class PostService extends AbstractService {
 
-	public List<PostVO> getPostList() throws Exception{
+	public List<PostVO> getPostList() throws Exception {
 		Connection conn = null;
 		try {
 			conn = getConnection();
-			
+
 			PostDao dao = new PostDao(conn);
 			List<PostVO> list = dao.getPostList();
-			
+
 			return list;
 		} finally {
 			if (conn != null) {
@@ -29,7 +30,7 @@ public class PostService extends AbstractService {
 		Connection conn = null;
 		try {
 			conn = getConnection();
-			
+
 			PostDao dao = new PostDao(conn);
 			int number = dao.getNumber() + 1;
 			if (number == 0) {
@@ -44,14 +45,14 @@ public class PostService extends AbstractService {
 		}
 	}
 
-	public List<PostVO> getPostListByCategory(int category) throws Exception{
+	public List<PostVO> getPostListByCategory(int category) throws Exception {
 		Connection conn = null;
 		try {
 			conn = getConnection();
-			
+
 			PostDao dao = new PostDao(conn);
 			List<PostVO> list = dao.getPostListByCategory(category);
-			
+
 			return list;
 		} finally {
 			if (conn != null) {
@@ -60,17 +61,17 @@ public class PostService extends AbstractService {
 		}
 	}
 
-	public List<PostVO> searchPost(String condition, String search) throws Exception{
+	public List<PostVO> searchPost(String condition, String search) throws Exception {
 		Connection conn = null;
 		try {
 			conn = getConnection();
-			
+
 			PostDao dao = new PostDao(conn);
 			StringBuilder sb = new StringBuilder();
 			sb.append("%").append(search).append("%");
 			System.out.println(sb.toString());
 			List<PostVO> list = dao.searchPost(condition, sb.toString());
-			
+
 			return list;
 		} finally {
 			if (conn != null) {
@@ -84,9 +85,58 @@ public class PostService extends AbstractService {
 		Connection conn = null;
 		try {
 			conn = getConnection();
-			
+
 			PostDao dao = new PostDao(conn);
 			dao.deletePost(number);
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+
+	public Map<Integer, List<String>> getLikeList() throws Exception {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn = getConnection();
+
+			PostDao dao = new PostDao(conn);
+			Map<Integer, List<String>> map = dao.getLikeList();
+			return map;
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+
+	public void addLike(int number, String writer) throws Exception {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn = getConnection();
+
+			PostDao dao = new PostDao(conn);
+			dao.addLike(number, writer);
+			
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+
+	public void deleteLike(int num, String name) throws Exception {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		try {
+			conn = getConnection();
+
+			PostDao dao = new PostDao(conn);
+			dao.deleteLike(num, name);
+			
 		} finally {
 			if (conn != null) {
 				conn.close();

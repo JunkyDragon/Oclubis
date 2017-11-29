@@ -18,17 +18,10 @@
 </head>
 <body>
 	<div class="container">
-
+		<h1>공지 작성</h1>
 		<form action="${ contextPath }/write.do" method="post">
-			<input type="text" name="theme" placeholder="제목"> <select
-				required="required" name="category">
-				<option value="-1" disabled="disabled" selected="selected">카테고리 선택</option>
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>
-			</select>
+			<input type="text" name="theme" placeholder="제목"> 
+			<input type="hidden"  name="category" value="0">
 			<textarea name="content" rows="8" cols="80" placeholder="내용"></textarea>
 			<button type="submit">제출</button>
 		</form>

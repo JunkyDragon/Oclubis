@@ -11,6 +11,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<%
+		int number = Integer.parseInt(request.getParameter("number"));
+	%>
+	<c:if test=""></c:if>
 </body>
 </html>

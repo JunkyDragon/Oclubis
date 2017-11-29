@@ -3,7 +3,10 @@ package com.oclubis.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.crypto.spec.PSource;
 
@@ -82,6 +85,72 @@ public class UserDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception("사용자 등록 시에 오류가 발생하였습니다");
+		} finally {
+			if (pstmt != null) {
+				pstmt.close();
+			}
+		}
+	}
+
+	public List<UserVO> getUserList() throws Exception {
+		// TODO Auto-generated method stub
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM USER";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			List<UserVO> list = new ArrayList<>();
+			UserVO vo = null;
+			while (rs.next()) {
+				vo = new UserVO();
+				vo.setClub(rs.getString(4));
+				vo.setId(rs.getString(1));
+				vo.setName(rs.getString(3));
+				vo.setPermission(rs.getInt(5));
+				list.add(vo);
+			}
+			return list;
+		} finally {
+			if (rs != null) {
+				rs.close();
+			}
+			if (pstmt != null) {
+				pstmt.close();
+			}
+		}
+	}
+
+	public void updateUserPermission(String userid, int value) throws Exception {
+		PreparedStatement pstmt = null;
+		String sql = "UPDATE USER SET PERMISSION=? WHERE ID=?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, value);
+			pstmt.setString(2, userid);
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("사용자 등록 시에 오류가 발생하였습니다");
+		} finally {
+			if (pstmt != null) {
+				pstmt.close();
+			}
+		}
+	}
+
+	public void deleteUser(String userid) throws Exception {
+		PreparedStatement pstmt = null;
+		String sql = "DELETE FROM USER WHERE ID=?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("사용자 탈퇴시에 오류가 발생하였습니다");
 		} finally {
 			if (pstmt != null) {
 				pstmt.close();
