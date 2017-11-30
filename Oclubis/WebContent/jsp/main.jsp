@@ -64,28 +64,28 @@
 						${fn:length(postlikelist.value)}
 						<c:set var="boo" value="false" />
 						<c:set var="nulltest" value="true" />
+						
 						<c:forEach items="${postlikelist.value}" var="postlike">
-							<c:if test="${p ostlike eq sessionScope.user.name}">
+							<c:if test="${ !doneLoop }">
+							<c:if test="${postlike eq sessionScope.user.name}">
 								<c:set var="boo" value="true" />
 								<form action="like.do" method="post">
 								<input type="hidden" name="number" value="${ item.number }">
+								<c:set var="doneLoop" value="true"></c:set>
 								<button type="submit" name="like" value="dislike">좋아요 해제</button>
 								</form>
 							</c:if>
+							</c:if>
 						</c:forEach>
-						<c:if test="${ !boo }">
-							<form action="like.do" method="post">
-							<input type="hidden" name="number" value="${ item.number }">				
-							<button type="submit" name="like" value="like">좋아요</button>
-							</form>
-						</c:if>
+						
+						
 					</c:if>
 				</c:forEach>
 				<c:if test="${ !nulltest }">
 					0
 					<form action="like.do" method="post">
 					<input type="hidden" name="number" value="${ item.number }">
-					<button type="submit" name="like" value="like">좋아요</button>
+					<button type="submit" name="like" value="like" >좋아요</button>
 					</form>
 					<c:set var="nulltest" value="true" />
 				</c:if>
